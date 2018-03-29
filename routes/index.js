@@ -1,6 +1,7 @@
-// combine routes
 const todoRoutes = require('./todoRoutes');
+const versionRoutes = require('./versionRoutes');
 
-module.exports = function(server) {
+module.exports = function(server, config) {
     todoRoutes(server);
+    versionRoutes(server, config);
 };

@@ -4,12 +4,13 @@
   "description": "small todo app",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js --env dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config-yml": "^0.8.0",
     "restify": "^7.1.0"
   }
 }
