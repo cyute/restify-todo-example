@@ -1,9 +1,17 @@
 const errors = require('restify-errors');
 const Todo = require('../models/todo');
 
+const PATH = '/todo';
+
 module.exports = (server) => {
 
-    server.post("/todo", (req, res, next) => {
+    server.post(PATH, createTodo);
+    server.get(`${PATH}/:id`, findTodo);
+    server.put(`${PATH}/:id`, updateTodo);
+    server.del(`${PATH}/:id`, deleteTodo);
+    server.get(PATH, findAllTodos);
+
+    function createTodo(req, res, next) {
         const todo = new Todo({...req.body});
 
         todo.save(error => {
@@ -14,9 +22,9 @@ module.exports = (server) => {
             res.send(todo);
             next();
         });
-    });
+    };
 
-    server.get("/todo/:id", (req, res, next) => {
+    function findTodo(req, res, next) {
         const id = req.params.id;
 
         Todo.findById(id, (error, todo) => {
@@ -31,9 +39,20 @@ module.exports = (server) => {
             res.send(todo);
             next();
         });
-    });
+    };
 
-    server.put("/todo/:id", (req, res, next) => {
+    function findAllTodos(req, res, next) {
+        Todo.find({}, (error, todos) => {
+            if (error) {
+                console.error(error.message);
+                return next(500);
+            }
+            res.send(todos);
+            next();
+        });
+    };
+
+    function updateTodo(req, res, next) {
         const id = req.params.id;
 
         Todo.findByIdAndUpdate(id, {...req.body}, (error, todo) => {
@@ -48,9 +67,9 @@ module.exports = (server) => {
             res.send(todo);
             next();
         });
-    });
+    };
 
-    server.del("/todo/:id", (req, res, next) => {
+    function deleteTodo(req, res, next) {
         const id = req.params.id
 
         Todo.findByIdAndRemove(id, (error, todo) => {
@@ -65,5 +84,5 @@ module.exports = (server) => {
             res.send(204);
             next();
         });
-    });
+    };
 };
