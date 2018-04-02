@@ -1,9 +1,9 @@
 const restify = require('restify');
 const config = require('config-yml');
 
-const database = require('./database');
-const routes = require('./routes/index');
-const errors = require('./errors/index');
+const database = require('./src/database');
+const routes = require('./src/routes/index');
+const errors = require('./src/errors/index');
 
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
