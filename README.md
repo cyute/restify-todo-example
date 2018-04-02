@@ -1,5 +1,12 @@
 # restify-todo-example
 
-npm install
-npm run start
+**development**
+- ./scripts/start-mongo.sh
+- npm install
+- npm start
+
+----------
+**deployment**
+- ./scripts/build.sh
+- deploy process to AWS (TBD)
 

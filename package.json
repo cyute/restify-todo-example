@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "config-yml": "^0.8.0",
+    "mongoose": "^5.0.12",
     "restify": "^7.1.0"
   }
 }
