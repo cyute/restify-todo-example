@@ -6,8 +6,7 @@ module.exports = () => {
         message: 'TODO cannot be found.'
     });
 
-    errors.makeConstructor('TodoMissingTaskError', {
-        statusCode: 422,
-        message: 'TODO requires a valid task attribute.'
+    errors.makeConstructor('TodoMalformedError', {
+        statusCode: 422
     });
 }

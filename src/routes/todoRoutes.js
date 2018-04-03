@@ -20,7 +20,7 @@ module.exports = (server) => {
         }
         catch(error) {
             console.error(error.message);
-            next(new errors.TodoMissingTaskError(error.message));
+            next(new errors.TodoMalformedError(error.message));
         }
     }
 
