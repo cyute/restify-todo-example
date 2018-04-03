@@ -1,4 +1,5 @@
 const errors = require('restify-errors');
+const assert = require('assert');
 const Todo = require('../models/todo');
 
 const PATH = '/todo';
@@ -11,78 +12,73 @@ module.exports = (server) => {
     server.del(`${PATH}/:id`, deleteTodo);
     server.get(PATH, findAllTodos);
 
-    function createTodo(req, res, next) {
-        const todo = new Todo({...req.body});
-
-        todo.save(error => {
-            if (error) {
-                console.error(error.message);
-                return next(new errors.TodoMissingTaskError(error.message));
-            }
+    async function createTodo(req, res, next) {
+        try {
+            const todo = await Todo.create({...req.body});
             res.send(todo);
             next();
-        });
-    };
+        }
+        catch(error) {
+            console.error(error.message);
+            return next(new errors.TodoMissingTaskError(error.message));
+        }
+    }
 
-    function findTodo(req, res, next) {
+    async function findTodo(req, res, next) {
         const id = req.params.id;
 
-        Todo.findById(id, (error, todo) => {
-            if (error) {
-                console.error(error.message);
-                return next(new errors.TodoNotFoundError(error.message));
-            }
-
-            if (!todo) {
-                return next(new errors.TodoNotFoundError());
-            }
+        try {
+            const todo = await Todo.findById(id);
+            assert.notStrictEqual(todo, null);
             res.send(todo);
             next();
-        });
-    };
+        }
+        catch (error) {
+            console.error(error.message);
+            return next(new errors.TodoNotFoundError());
+        }
+    }
 
-    function findAllTodos(req, res, next) {
-        Todo.find({}, (error, todos) => {
-            if (error) {
-                console.error(error.message);
-                return next(500);
-            }
+    async function findAllTodos(req, res, next) {
+        try {
+            const todos = await Todo.find({});
+            assert.notStrictEqual(todos, null);
             res.send(todos);
             next();
-        });
-    };
+        }
+        catch (error) {
+            console.error(error.message);
+            return next(500);
+        }
+    }
 
-    function updateTodo(req, res, next) {
+    async function updateTodo(req, res, next) {
         const id = req.params.id;
 
-        Todo.findByIdAndUpdate(id, {...req.body}, (error, todo) => {
-            if (error) {
-                console.error(error.message);
-                return next(new errors.TodoNotFoundError(error.message));
-            }
-
-            if (!todo) {
-                return next(new errors.TodoNotFoundError());
-            }
+        try {
+            const todo = await Todo.findByIdAndUpdate(id, {...req.body});
+            assert.notStrictEqual(todo, null);
             res.send(todo);
             next();
-        });
-    };
+        }
+        catch (error) {
+            console.error(error.message);
+            return next(new errors.TodoNotFoundError());
+        }
+    }
 
-    function deleteTodo(req, res, next) {
-        const id = req.params.id
+    async function deleteTodo(req, res, next) {
+        const id = req.params.id;
 
-        Todo.findByIdAndRemove(id, (error, todo) => {
-            if (error) {
-                console.error(error.message);
-                return next(new errors.TodoNotFoundError(error.message));
-            }
-
-            if (!todo) {
-                return next(new errors.TodoNotFoundError());
-            }
+        try {
+            const todo = await Todo.findByIdAndRemove(id);
+            assert.notStrictEqual(todo, null);
             res.send(204);
             next();
-        });
-    };
+        }
+        catch (error) {
+            console.error(error.message);
+            return next(new errors.TodoNotFoundError());
+        }
+    }
 };
