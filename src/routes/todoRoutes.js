@@ -20,7 +20,7 @@ module.exports = (server) => {
         }
         catch(error) {
             console.error(error.message);
-            return next(new errors.TodoMissingTaskError(error.message));
+            next(new errors.TodoMissingTaskError(error.message));
         }
     }
 
@@ -35,7 +35,7 @@ module.exports = (server) => {
         }
         catch (error) {
             console.error(error.message);
-            return next(new errors.TodoNotFoundError());
+            next(new errors.TodoNotFoundError());
         }
     }
 
@@ -48,7 +48,7 @@ module.exports = (server) => {
         }
         catch (error) {
             console.error(error.message);
-            return next(500);
+            next(500);
         }
     }
 
@@ -63,7 +63,7 @@ module.exports = (server) => {
         }
         catch (error) {
             console.error(error.message);
-            return next(new errors.TodoNotFoundError());
+            next(new errors.TodoNotFoundError());
         }
     }
 
@@ -78,7 +78,7 @@ module.exports = (server) => {
         }
         catch (error) {
             console.error(error.message);
-            return next(new errors.TodoNotFoundError());
+            next(new errors.TodoNotFoundError());
         }
     }
 };
