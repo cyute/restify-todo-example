@@ -4,7 +4,7 @@ const api = supertest('http://localhost:8080');
 
 describe('Todo Routes', function() {
     describe('#POST', function() {
-        it('should create a new Todo', function(done) {
+        xit('should create a new Todo', function(done) {
             api.post('/todo')
                 .set('Accept', 'application/json')
                 .send({
